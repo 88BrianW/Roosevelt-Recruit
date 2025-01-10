@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseconfig';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore';
 import NavBar from '../components/Navbar/NavBar';
 import Footer from '../components/Footer';
 import { useDocTitle } from '../components/CustomHook';
@@ -49,6 +49,13 @@ const StudentPortal = () => {
                 answers: answers,
                 status: 'Pending',
             });
+
+            // Increment the applications count in the job posting
+            const jobRef = doc(db, 'jobPostings', selectedJob.id);
+            await updateDoc(jobRef, {
+                applications: selectedJob.applications + 1
+            });
+
             alert('Application submitted successfully!');
             setIsModalOpen(false);
             setApplicantName('');
