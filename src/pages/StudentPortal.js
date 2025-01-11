@@ -79,9 +79,35 @@ const StudentPortal = () => {
                 <section className="dashboard mb-12">
                     <h2 className="text-3xl font-semibold text-gray-800 mb-6">Dashboard</h2>
                     <div className="flex gap-8">
-                        <div className="bg-gray-100 p-6 rounded-lg shadow-md flex-1">
-                            <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
-                            <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                        <div className="bg-gray-100 p-6 rounded-lg shadow-md flex-1 flex flex-row flex-wrap">
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Postings that fit your profile</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>  
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
+                            <div className='bg-white p-6 rounded-lg flex-shrink: 1'>
+                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
+                            </div>
                         </div>
                     </div>
                 </section>
