@@ -19,6 +19,7 @@ const EmployerPortal = () => {
     const [jobDescription, setJobDescription] = useState('');
     const [jobQuestions, setJobQuestions] = useState(['']);
     const [employerId, setEmployerId] = useState(null);
+    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -71,6 +72,7 @@ const EmployerPortal = () => {
             setJobTitle('');
             setJobDescription('');
             setJobQuestions(['']);
+            setEndDate(''); // Clear end date
             // Refresh job postings
             const q = query(collection(db, 'jobPostings'), where('employerId', '==', employerId));
             const querySnapshot = await getDocs(q);
@@ -177,6 +179,16 @@ const EmployerPortal = () => {
                                 <textarea
                                     value={jobDescription}
                                     onChange={(e) => setJobDescription(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">End Date</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg"
                                     required
                                 />

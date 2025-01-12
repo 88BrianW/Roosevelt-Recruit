@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebaseconfig';
-import { collection, getDocs, query, where, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
+import { db, auth } from '../firebaseconfig';
 import NavBar from '../components/Navbar/NavBar';
 import Footer from '../components/Footer';
 import { useDocTitle } from '../components/CustomHook';
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
 
 const StudentPortal = () => {
     useDocTitle('Student Portal');
@@ -15,15 +17,36 @@ const StudentPortal = () => {
     const [applicantEmail, setApplicantEmail] = useState('');
     const [coverLetterURL, setCoverLetterURL] = useState('');
     const [answers, setAnswers] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                setUserId(user.uid);
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    setFavorites(userDoc.data().favorites || []);
+                }
+            } else {
+                setUserId(null);
+                setFavorites([]);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const fetchJobPostings = async () => {
             const q = query(collection(db, 'jobPostings'), where('status', '==', 'Approved'));
             const querySnapshot = await getDocs(q);
             const jobs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setJobPostings(jobs);
+            const currentDate = new Date();
+            const validJobs = jobs.filter(job => new Date(job.endDate) >= currentDate);
+            setJobPostings(validJobs);
         };
-
+    
         fetchJobPostings();
     }, []);
 
@@ -68,6 +91,21 @@ const StudentPortal = () => {
         }
     };
 
+    const handleFavorite = async (job) => {
+        let updatedFavorites;
+        if (favorites.includes(job.id)) {
+            updatedFavorites = favorites.filter(fav => fav !== job.id);
+        } else {
+            updatedFavorites = [...favorites, job.id];
+        }
+        setFavorites(updatedFavorites);
+
+        if (userId) {
+            const userDocRef = doc(db, 'users', userId);
+            await setDoc(userDocRef, { favorites: updatedFavorites }, { merge: true });
+        }
+    };
+
     return (
         <>
             <NavBar />
@@ -86,6 +124,23 @@ const StudentPortal = () => {
                         </div>
                     </div>
                 </section>
+
+                <h2 className="text-3xl font-semibold text-gray-800 mb-6">Favorited Job Postings</h2>
+                <div style={{ width: "auto", height: "600px" }}>
+                    <VerticalTimeline>
+                        {jobPostings.filter(job => favorites.includes(job.id)).map(job => (
+                            <VerticalTimelineElement
+                                key={job.id}
+                                date={new Date(job.endDate).toLocaleDateString()}
+                                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                            >
+                                <h3 className="vertical-timeline-element-title">{job.title}</h3>
+                                <h4 className="vertical-timeline-element-subtitle">{job.companyName}</h4>
+                                <p>{job.description}</p>
+                            </VerticalTimelineElement>
+                        ))}
+                    </VerticalTimeline>
+                </div>
 
                 <section className="job-postings">
                     <h2 className="text-3xl font-semibold text-gray-800 mb-6">Available Job Postings</h2>
@@ -106,6 +161,12 @@ const StudentPortal = () => {
                                         onClick={() => handleApply(job)}
                                     >
                                         Apply
+                                    </button>
+                                    <button
+                                        className="bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700"
+                                        onClick={() => handleFavorite(job)}
+                                    >
+                                        {favorites.includes(job.id) ? 'Unfavorite' : 'Favorite'}
                                     </button>
                                 </div>
                             </li>
