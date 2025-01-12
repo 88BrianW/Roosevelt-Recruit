@@ -46,6 +46,11 @@ const NavLinks = () => {
             <HashLink className="px-4 font-extrabold text-gray-500 hover:text-blue-900" smooth to="/#contact">
                 Contact Us
             </HashLink>
+            {user && user.email === 'admin1@gmail.com' && (
+                <HashLink className="text-white bg-green-900 hover:bg-green-700 inline-flex items-center justify-center w-auto px-6 py-3 shadow-xl rounded-xl" smooth to="/admin-portal">
+                    Admin Portal
+                </HashLink>
+            )}
             {user && userType === 'student' && (
                 <HashLink className="text-white bg-orange-900 hover:bg-orange-700 inline-flex items-center justify-center w-auto px-6 py-3 shadow-xl rounded-xl" smooth to="/student-portal">
                     Student Portal

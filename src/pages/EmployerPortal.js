@@ -64,10 +64,9 @@ const EmployerPortal = () => {
                 questions: jobQuestions.filter(question => question.trim() !== ''), // Filter out empty questions
                 employerId: employerId,
                 applications: 0,
-                status: 'Open',
+                status: 'Pending',
             });
             alert('Job posting added successfully!');
-            setIsJobFormOpen(false);
             setCompanyName('');
             setJobTitle('');
             setJobDescription('');
@@ -134,7 +133,7 @@ const EmployerPortal = () => {
                         {jobPostings.map((job) => (
                             <li key={job.id} className="bg-white p-6 rounded-lg shadow-md">
                                 <h3 className="text-2xl font-semibold text-gray-800">{job.title}</h3>
-                                <p className="text-gray-600">{job.location}</p>
+                                <p className="text-gray-700 mt-2">Status: {job.status}</p>
                                 <p className="text-gray-700 mt-2">Applications: {job.applications}</p>
                                 <button
                                     className="mt-4 bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800"

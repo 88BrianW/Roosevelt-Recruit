@@ -10,6 +10,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [password, setPassword] = useState('');
     const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
     const [userType, setUserType] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSetUserTypeAndEmailLogin = async () => {
         try {
@@ -19,6 +20,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 onClose();
             }
         } catch (error) {
+            setErrorMessage(error.message);
             console.error('Login failed', error);
         }
     };
@@ -31,6 +33,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                 onClose();
             }
         } catch (error) {
+            setErrorMessage(error.message);
             console.error('Login failed', error);
         }
     };
@@ -48,6 +51,12 @@ const AuthModal = ({ isOpen, onClose }) => {
                         <FontAwesomeIcon icon={faTimes} size="lg" />
                     </button>
                     <h2 className="text-2xl mb-4">Login</h2>
+                    
+                    {errorMessage && (
+                        <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
+                            {errorMessage}
+                        </div>
+                    )}
                     
                     <div className="mb-6">
                         <div className="flex justify-center items-center mb-4">

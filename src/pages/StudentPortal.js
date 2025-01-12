@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseconfig';
-import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc, doc, updateDoc } from 'firebase/firestore';
 import NavBar from '../components/Navbar/NavBar';
 import Footer from '../components/Footer';
 import { useDocTitle } from '../components/CustomHook';
@@ -18,7 +18,8 @@ const StudentPortal = () => {
 
     useEffect(() => {
         const fetchJobPostings = async () => {
-            const querySnapshot = await getDocs(collection(db, 'jobPostings'));
+            const q = query(collection(db, 'jobPostings'), where('status', '==', 'Approved'));
+            const querySnapshot = await getDocs(q);
             const jobs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setJobPostings(jobs);
         };
@@ -73,7 +74,7 @@ const StudentPortal = () => {
             <div className="container mx-auto p-6" data-aos="fade-up">
                 <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to the Student Portal</h1>
                 <p className="text-lg text-gray-600 mb-8">
-                    This is the central hub for viewing job postings and managing your applications.
+                    This is the central hub for viewing job postings and applying for jobs.
                 </p>
 
                 <section className="dashboard mb-12">

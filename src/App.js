@@ -11,6 +11,7 @@ import {
 import Home from './pages/Home';
 import EmployerPortal from './pages/EmployerPortal';
 import StudentPortal from './pages/StudentPortal';
+import AdminPortal from './pages/AdminPortal';
 
 import {useDocTitle} from './components/CustomHook';
 import ScrollToTop from './components/ScrollToTop';
@@ -40,6 +41,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/student-portal" element={<StudentPortal />} /> 
             <Route path="/employer-portal" element={<EmployerPortal />} /> 
+            <Route path="/admin-portal" element={<AdminPortal />} />
           </Routes>
         </ScrollToTop>
       </Router>

@@ -7,6 +7,25 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 const SignupModal = ({ isOpen, onClose, userType }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleGoogleSignupClick = async () => {
+        try {
+            await handleGoogleSignup(userType);
+            onClose();
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
+    };
+
+    const handleEmailSignupClick = async () => {
+        try {
+            await handleEmailSignup(email, password, userType);
+            onClose();
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
+    };
 
     if (!isOpen) return null;
 
@@ -20,10 +39,16 @@ const SignupModal = ({ isOpen, onClose, userType }) => {
                     <FontAwesomeIcon icon={faTimes} size="lg" />
                 </button>
                 <h2 className="text-2xl mb-4">Signup as {userType.charAt(0).toUpperCase() + userType.slice(1)}</h2>
+
+                {errorMessage && (
+                        <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
+                            {errorMessage}
+                        </div>
+                    )}
                 
                 <div className="mb-6">
                     <div className="flex justify-center items-center mb-4">
-                        <div className="flex items-center cursor-pointer mx-2" onClick={() => handleGoogleSignup(userType)}>
+                        <div className="flex items-center cursor-pointer mx-2" onClick={() => handleGoogleSignupClick(userType)}>
                             <img src={googleLogo} alt="Google Signup" className="w-10 h-10" />
                             <span className="ml-2">Signup with Google</span>
                         </div>
@@ -44,7 +69,7 @@ const SignupModal = ({ isOpen, onClose, userType }) => {
                     />
                     <button
                         className="text-white bg-orange-700 hover:bg-orange-800 inline-flex items-center justify-center w-full px-6 py-3 shadow-xl rounded-xl mb-2"
-                        onClick={() => handleEmailSignup(email, password, userType)}
+                        onClick={() => handleEmailSignupClick(email, password, userType)}
                     >
                         Signup with Email
                     </button>

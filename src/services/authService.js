@@ -30,6 +30,7 @@ const handleGoogleSignup = async (userType) => {
         });
     } catch (error) {
         console.error("Error signing up: ", error);
+        throw error;
     }
 };
 
@@ -43,6 +44,7 @@ const handleEmailSignup = async (email, password, userType) => {
         });
     } catch (error) {
         console.error("Error signing up: ", error);
+        throw error;
     }
 };
 
@@ -67,6 +69,7 @@ const handleLogout = async () => {
         await signOut(auth);
     } catch (error) {
         console.error("Error logging out: ", error);
+        throw error;
     }
 };
 
