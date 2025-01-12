@@ -4,6 +4,8 @@ import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
 import NavBar from '../components/Navbar/NavBar';
 import Footer from '../components/Footer';
 import { useDocTitle } from '../components/CustomHook';
+import { Chrono } from "react-chrono"
+import data from "../components/data.js"
 
 const StudentPortal = () => {
     useDocTitle('Student Portal');
@@ -89,7 +91,7 @@ const StudentPortal = () => {
                                 <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>  
                             </div>
                             <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
-                                <h3 className="text-xl font-medium text-gray-700">Total Job Postings</h3>
+                                <h3 className="text-xl font-medium text-gray-700">Job Updates</h3>
                                 <p className="text-2xl font-bold text-gray-800">{jobPostings.length}</p>
                             </div>
                             <div className='bg-white p-6 rounded-lg flex-shrink: 1 mr-4 mb-4'>
@@ -111,6 +113,10 @@ const StudentPortal = () => {
                         </div>
                     </div>
                 </section>
+
+                <div style={{ width: "auto", height: "600px" }}>
+                    <Chrono items={data} cardPositionHorizontal="BOTTOM" mode="HORIZONTAL"/>
+                </div>
 
                 <section className="job-postings">
                     <h2 className="text-3xl font-semibold text-gray-800 mb-6">Available Job Postings</h2>
