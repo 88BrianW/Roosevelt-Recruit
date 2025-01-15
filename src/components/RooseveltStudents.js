@@ -1,7 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../firebaseconfig';
+import AuthModal from './authModal';
 
 const RooseveltStudents = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigate('/employer-portal');
+            }
+        });
+
+        return () => unsubscribe();
+    }, [navigate]);
+
+    const handleEmployerPortalClick = () => {
+        if (auth.currentUser) {
+            navigate('/employer-portal');
+        } else {
+            setIsModalOpen(true);
+        }
+    };
+
     return (
         <div className="bg-white py-16 px-4 text-center">
             <h1 className="text-4xl font-bold text-[#002855] mb-8">Roosevelt Students are the BEST!</h1>
@@ -24,13 +47,15 @@ const RooseveltStudents = () => {
             <div className="mt-12">
                 <h2 className="text-3xl font-bold text-[#002855] mb-4" data-aos="fade-up">Are you an employer?</h2>
                 <p className="text-lg font-semibold text-[#002855] mb-6" data-aos="fade-up">Hire the future today!</p>
-                <Link 
-                    to="/contact" 
+                <button 
+                    onClick={handleEmployerPortalClick}
                     className="bg-[#002855] text-white px-8 py-3 rounded-lg font-medium shadow hover:bg-[#001F3F]"
                 >
                     Employer Portal
-                </Link>
+                </button>
             </div>
+
+            <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 };
