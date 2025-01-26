@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseconfig';
 import AuthModal from './authModal';
+import AOS from 'aos';
 
 const Intro = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,13 @@ const Intro = () => {
 
         return () => unsubscribe();
     }, [navigate, redirectPath]);
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // Animation duration
+            once: true, // Whether animation should happen only once
+        });
+    }, []);
 
     const handlePortalClick = (path) => {
         if (auth.currentUser) {
