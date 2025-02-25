@@ -10,11 +10,11 @@ const NavBar = () => {
     }
 
     return (
-        <nav className="fixed top-0 w-full z-30 bg-white shadow-lg transition duration-300 ease-in-out mb-16">
-            <div className="flex flex-row justify-between items-center py-2">
+        <nav className="fixed top-0 w-full z-30 bg-white shadow-lg transition duration-300 ease-in-out mb-16 max-w-[100vw]">
+            <div className="flex flex-row items-center py-2 px-6 justify-between">
                 <div className="flex flex-row justify-center md:px-12 md:mx-12 items-center text-center font-semibold">
                     <HashLink smooth to="/#hero">
-                        <h1 className="font-extrabold text-4xl text-blue-900">Roosevelt Recruit</h1>
+                        <h1 className="font-extrabold text-2xl lg:text-4xl text-blue-900">Roosevelt Recruit</h1>
                     </HashLink>
                 </div>
                 <div className="group flex flex-col items-center">
